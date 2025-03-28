@@ -10,359 +10,496 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* ----- ألوان الوضع الداكن ----- */
-            --bg-dark: #0a081a;
-            --card-dark: #16132b;
+            /* ألوان الوضع الداكن */
+            --bg-dark: #0a081a; /* أغمق قليلاً */
+            --card-dark: #16132b; /* تعديل طفيف */
             --text-dark: #e0e0e0;
-            --text-secondary-dark: #a0a0c0;
             --text-light: #ffffff;
-            --primary-dark: #4e54c8;
-            --secondary-dark: #8f94fb;
-            --accent-dark: #facc15;
-            --shadow-dark: 0 15px 40px rgba(0, 0, 0, 0.4); /* --- تغيير للأداء: تقليل شفافية الظل قليلاً --- */
+            --primary-dark: #4e54c8; /* تعديل درجة الأزرق */
+            --secondary-dark: #8f94fb; /* درجة بنفسجي أفتح */
+            --accent-dark: #facc15;  /* أصفر أكثر دفئاً */
+            --shadow-dark: 0 15px 40px rgba(0, 0, 0, 0.6); /* ظل أعمق */
 
-            /* ----- ألوان الوضع الفاتح ----- */
-            --bg-light: #f7f9fc;
+            /* ألوان الوضع الفاتح */
+            --bg-light: #f7f9fc; /* أبيض مائل للزرقة */
             --card-light: #ffffff;
-            --text-light-mode: #1e293b;
-            --text-secondary-light: #64748b;
-            --primary-light: #60a5fa;
-            --secondary-light: #818cf8;
-            --accent-light: #f472b6;
-            --shadow-light: 0 10px 30px rgba(100, 116, 139, 0.15); /* --- تغيير للأداء: تقليل شفافية الظل قليلاً --- */
+            --text-light-mode: #1e293b; /* أسود ناعم */
+            --primary-light: #60a5fa; /* أزرق سماوي */
+            --secondary-light: #818cf8; /* بنفسجي فاتح */
+            --accent-light: #f472b6; /* وردي */
+            --shadow-light: 0 10px 30px rgba(100, 116, 139, 0.2); /* ظل ناعم */
 
-            /* ----- ألوان إضافية للخلفية المتحركة ----- */
-            --blob1-dark: rgba(78, 84, 200, 0.2); /* --- تغيير للأداء: تقليل الشفافية قليلاً --- */
-            --blob2-dark: rgba(143, 148, 251, 0.15); /* --- تغيير للأداء: تقليل الشفافية قليلاً --- */
-            --blob1-light: rgba(96, 165, 250, 0.2); /* --- تغيير للأداء: تقليل الشفافية قليلاً --- */
-            --blob2-light: rgba(129, 140, 248, 0.15); /* --- تغيير للأداء: تقليل الشفافية قليلاً --- */
-
-            /* ----- متغيرات الانتقال والحركة ----- */
-            --transition-speed-fast: 0.3s;
-            --transition-speed-medium: 0.5s;
-            --transition-speed-slow: 0.8s;
+            /* ألوان إضافية للخلفية المتحركة */
+            --blob1-dark: rgba(78, 84, 200, 0.3);
+            --blob2-dark: rgba(143, 148, 251, 0.2);
+            --blob1-light: rgba(96, 165, 250, 0.3);
+            --blob2-light: rgba(129, 140, 248, 0.2);
         }
 
-        /* ----- الإعدادات العامة وإعادة الضبط ----- */
-        *,
-        *::before,
-        *::after {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: background-color var(--transition-speed-medium) ease, color var(--transition-speed-fast) ease, opacity var(--transition-speed-fast) ease, border-color var(--transition-speed-fast) ease, fill var(--transition-speed-fast) ease, stroke var(--transition-speed-fast) ease;
+            transition: background-color 0.5s ease, color 0.3s ease, opacity 0.3s ease, border-color 0.3s ease; /* إضافة border-color */
         }
 
-        /* ----- إعدادات الجسم الأساسية ----- */
         body {
             font-family: 'Tajawal', sans-serif;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: hidden; /* منع ظهور أي شريط تمرير بسبب العناصر الكبيرة */
             position: relative;
             background-color: var(--bg-dark);
             color: var(--text-dark);
         }
 
-        /* ----- خلفية الفقاعات المتحركة (Blobs) ----- */
+        /* ---- خلفية الفقاعات المتحركة ---- */
         body::before,
         body::after {
             content: '';
             position: fixed;
             top: 50%;
             left: 50%;
-            width: 120vmax;
+            width: 120vmax; /* حجم كبير جدًا لملء الشاشة */
             height: 120vmax;
             border-radius: 50%;
-            z-index: -2;
-            filter: blur(50px); /* --- تغيير للأداء: تقليل البلور بشكل كبير --- */
-            /* will-change: transform, background; --- تغيير للأداء: إزالة will-change هنا قد يكون أفضل لأن البلور مكلف --- */
-            transition: background var(--transition-speed-slow) ease;
+            z-index: -2; /* خلف كل شيء تقريبًا */
+            filter: blur(100px); /* ضبابية عالية جدًا للنعومة */
+            will-change: transform; /* تحسين الأداء */
+            transition: background 0.8s ease; /* انتقال ناعم للألوان عند تبديل الوضع */
         }
 
         body::before {
             background: radial-gradient(circle at center, var(--blob1-dark) 0%, transparent 60%);
             transform-origin: center center;
-            animation: softFloat 45s infinite linear alternate;
+            animation: softFloat 45s infinite linear alternate; /* حركة أبطأ */
         }
 
         body::after {
             background: radial-gradient(circle at center, var(--blob2-dark) 0%, transparent 65%);
             transform-origin: center center;
-            animation: softFloat 55s infinite linear alternate-reverse;
-            animation-delay: -10s;
+            animation: softFloat 55s infinite linear alternate-reverse; /* حركة أبطأ وباتجاه معاكس */
+            animation-delay: -10s; /* بدء الحركة من نقطة مختلفة */
         }
 
-        /* ----- الوضع الفاتح للجسم والخلفية ----- */
         body.light-mode {
             background-color: var(--bg-light);
             color: var(--text-light-mode);
         }
-        body.light-mode::before { background: radial-gradient(circle at center, var(--blob1-light) 0%, transparent 60%); }
-        body.light-mode::after { background: radial-gradient(circle at center, var(--blob2-light) 0%, transparent 65%); }
 
-        /* ----- حركة خلفية الفقاعات ----- */
-        @keyframes softFloat {
-            0% { transform: translate(-50%, -50%) scale(0.8) rotate(0deg); opacity: 0.8; }
-            50% { transform: translate(-40%, -60%) scale(1.1) rotate(180deg); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(0.8) rotate(360deg); opacity: 0.8; }
+        body.light-mode::before {
+            background: radial-gradient(circle at center, var(--blob1-light) 0%, transparent 60%);
         }
 
-        /* ----- زخارف جانبية ----- */
+        body.light-mode::after {
+            background: radial-gradient(circle at center, var(--blob2-light) 0%, transparent 65%);
+        }
+
+        /* حركة الفقاعات الناعمة */
+        @keyframes softFloat {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8) rotate(0deg);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(-40%, -60%) scale(1.1) rotate(180deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.8) rotate(360deg);
+                opacity: 0.8;
+            }
+        }
+         /* ---- نهاية خلفية الفقاعات ---- */
+
+
+        /* زخارف جانبية (اختياري - يمكن إزالتها إذا كانت مزدحمة) */
         .side-decoration {
             position: fixed;
-            width: 100px;
+            width: 100px; /* أصغر */
             height: 100vh;
             top: 0;
-            z-index: -1;
-            opacity: 0.06; /* --- تغيير للأداء: تقليل الشفافية قليلاً --- */
+            z-index: -1; /* فوق الفقاعات، تحت العناصر الأخرى */
+            opacity: 0.08; /* أخف */
             background-repeat: repeat-y;
-            transition: opacity var(--transition-speed-medium) ease, background-image var(--transition-speed-medium) ease;
-            pointer-events: none;
+            transition: opacity 0.5s ease, background-image 0.5s ease;
         }
-        .left-decoration { left: 0; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="160" viewBox="0 0 80 160"><path fill="%234e54c8" opacity="0.5" d="M40,0 L80,40 L40,80 L0,40 Z"/><path fill="%238f94fb" opacity="0.3" d="M40,80 L80,120 L40,160 L0,120 Z"/></svg>'); }
-        .right-decoration { right: 0; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="160" viewBox="0 0 80 160"><path fill="%238f94fb" opacity="0.3" d="M40,0 L80,40 L40,80 L0,40 Z"/><path fill="%234e54c8" opacity="0.5" d="M40,80 L80,120 L40,160 L0,120 Z"/></svg>'); }
-        body.light-mode .side-decoration { opacity: 0.08; }
-        body.light-mode .left-decoration { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="160" viewBox="0 0 80 160"><path fill="%2360a5fa" opacity="0.5" d="M40,0 L80,40 L40,80 L0,40 Z"/><path fill="%23818cf8" opacity="0.3" d="M40,80 L80,120 L40,160 L0,120 Z"/></svg>'); }
-        body.light-mode .right-decoration { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="160" viewBox="0 0 80 160"><path fill="%23818cf8" opacity="0.3" d="M40,0 L80,40 L40,80 L0,40 Z"/><path fill="%2360a5fa" opacity="0.5" d="M40,80 L80,120 L40,160 L0,120 Z"/></svg>'); }
 
-        /* ----- حاوية العناصر الزخرفية المتحركة (SVGs) ----- */
-        .decorative-elements {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none; overflow: hidden;
+        .left-decoration {
+            left: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="160" viewBox="0 0 80 160"><path fill="%234e54c8" opacity="0.5" d="M40,0 L80,40 L40,80 L0,40 Z"/><path fill="%238f94fb" opacity="0.3" d="M40,80 L80,120 L40,160 L0,120 Z"/></svg>');
         }
+
+        .right-decoration {
+            right: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="160" viewBox="0 0 80 160"><path fill="%238f94fb" opacity="0.3" d="M40,0 L80,40 L40,80 L0,40 Z"/><path fill="%234e54c8" opacity="0.5" d="M40,80 L80,120 L40,160 L0,120 Z"/></svg>');
+        }
+
+        body.light-mode .side-decoration {
+            opacity: 0.1;
+        }
+        body.light-mode .left-decoration {
+             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="160" viewBox="0 0 80 160"><path fill="%2360a5fa" opacity="0.5" d="M40,0 L80,40 L40,80 L0,40 Z"/><path fill="%23818cf8" opacity="0.3" d="M40,80 L80,120 L40,160 L0,120 Z"/></svg>');
+        }
+        body.light-mode .right-decoration {
+             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="160" viewBox="0 0 80 160"><path fill="%23818cf8" opacity="0.3" d="M40,0 L80,40 L40,80 L0,40 Z"/><path fill="%2360a5fa" opacity="0.5" d="M40,80 L80,120 L40,160 L0,120 Z"/></svg>');
+        }
+
+
+        /* زخارف عائمة واضحة (تعديل لتكون أخف) */
+        .decorative-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* نفس مستوى الزخارف الجانبية */
+            pointer-events: none;
+            overflow: hidden;
+        }
+
         .decorative-element {
             position: absolute;
-            opacity: 0.12; /* --- تغيير للأداء: تقليل الشفافية قليلاً --- */
-            animation: floatElement 40s infinite linear;
-            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.05)); /* --- تغيير للأداء: تقليل الظل --- */
+            opacity: 0.15; /* أخف */
+            animation: floatElement 40s infinite linear; /* أبطأ */
+            filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.1)); /* ظل أخف */
+            transition: color 0.5s ease; /* انتقال اللون */
             will-change: transform, opacity;
         }
-        .decorative-element svg path,
-        .decorative-element svg circle,
-        .decorative-element svg line {
-            transition: fill var(--transition-speed-medium) ease, stroke var(--transition-speed-medium) ease;
-        }
 
-        /* ----- البطاقة الرئيسية ----- */
-        .container {
-            position: relative; width: 90%; max-width: 750px;
-            background: var(--card-dark); border-radius: 25px;
-            box-shadow: var(--shadow-dark); overflow: hidden;
-            margin: 50px auto; padding-bottom: 40px;
-            transform-style: preserve-3d;
-            border: 1px solid rgba(255, 255, 255, 0.08); /* --- تغيير للأداء: تقليل شفافية الحدود --- */
-            z-index: 10;
-             /* --- تغيير للأداء: الانتقال سيتم التحكم به عبر JS عند المغادرة --- */
-            /* transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); */
-        }
+
+        /* أنماط الوضع الفاتح (تعديلات على العناصر الأساسية) */
         body.light-mode .container {
-            background: var(--card-light); box-shadow: var(--shadow-light);
-            border: 1px solid rgba(0, 0, 0, 0.05); /* --- تغيير للأداء: تقليل شفافية الحدود --- */
+            background: var(--card-light);
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(0, 0, 0, 0.08); /* حد أخف */
         }
 
-        /* ----- رأس البطاقة ----- */
-        .header {
-            position: relative; height: 220px;
-            background: linear-gradient(60deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
-            display: flex; justify-content: center; align-items: center;
-            overflow: hidden; text-align: center;
-        }
-        body.light-mode .header { background: linear-gradient(60deg, var(--primary-light) 0%, var(--secondary-light) 100%); }
-
-        /* ----- الهلال ----- */
-        .moon {
-            position: absolute; top: 20%; left: 15%; width: 90px; height: 90px;
-            background: var(--accent-dark); border-radius: 50%;
-            box-shadow: 0 0 20px var(--accent-dark), 0 0 40px rgba(250, 204, 21, 0.3); /* --- تغيير للأداء: تقليل انتشار الظل --- */
-            animation: gentleFloat 8s ease-in-out infinite;
-            z-index: 1;
-        }
-        body.light-mode .moon { background: var(--accent-light); box-shadow: 0 0 20px var(--accent-light), 0 0 40px rgba(244, 114, 182, 0.25); }
-
-        /* ----- حاوية النجوم ----- */
-        .stars { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; opacity: 0.7; } /* --- تغيير للأداء: تقليل الشفافية قليلاً --- */
-
-        /* ----- النجمة الواحدة ----- */
-        .star {
-            position: absolute; background: var(--text-light); border-radius: 50%;
-            animation: twinkle 2.5s infinite alternate;
-            will-change: opacity, transform;
-        }
-        body.light-mode .star { background: rgba(255, 255, 255, 0.7); }
-
-        /* ----- عنوان الرأس ----- */
-        .title {
-            position: relative; z-index: 2; color: var(--text-light); font-size: 2.3rem; font-weight: 900;
-            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* --- تغيير للأداء: تقليل الظل --- */
-            margin-bottom: 8px; animation: fadeInDown 1s ease-out;
-        }
-        body.light-mode .title { color: white; }
-
-        /* ----- العنوان الفرعي للرأس ----- */
-        .subtitle {
-            position: relative; z-index: 2; color: var(--text-light); font-size: 1.1rem; font-weight: 500;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); /* --- تغيير للأداء: تقليل الظل --- */
-            animation: fadeInUp 1s ease-out 0.3s both; opacity: 0.85; /* --- تغيير للأداء: تقليل الشفافية قليلاً --- */
-        }
-         body.light-mode .subtitle { color: white; }
-
-        /* ----- محتوى البطاقة ----- */
-        .content { padding: 35px; text-align: center; position: relative; }
-
-        /* ----- نص الرسالة ----- */
-        .message {
-            font-size: 1.1rem; line-height: 1.9; margin-bottom: 35px;
-            color: var(--text-dark); animation: fadeIn 1.5s ease-out 0.6s both;
-        }
-        body.light-mode .message { color: var(--text-light-mode); }
-        .message p { margin-bottom: 1em; }
-        .message p:last-child { margin-bottom: 0; }
-
-        /* ----- التوقيع ----- */
-        .signature {
-            font-family: 'Tajawal', sans-serif; font-size: 1.6rem; color: var(--secondary-dark);
-            margin-top: 30px; font-weight: 700; animation: fadeIn 2s ease-out 1s both;
-            letter-spacing: 1px;
-        }
-        body.light-mode .signature { color: var(--text-light-mode); opacity: 0.85; }
-
-        /* ----- زخارف داخل المحتوى ----- */
-        .decoration {
-            position: absolute; width: 120px; height: 120px;
-            opacity: 0.06; /* --- تغيير للأداء: تقليل الشفافية --- */
-            z-index: 0;
-            /* filter: blur(2px); --- تغيير للأداء: إزالة البلور هنا قد يكون أفضل --- */
-            transition: background var(--transition-speed-medium) ease, opacity var(--transition-speed-medium) ease;
-        }
-        .decoration-1 {
-            top: 20px; left: -30px; background: var(--primary-dark);
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            animation: float 10s ease-in-out infinite;
-        }
-        body.light-mode .decoration-1 { background: var(--primary-light); }
-        .decoration-2 {
-            bottom: 10px; right: -40px; background: var(--secondary-dark);
-            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-            animation: float 12s ease-in-out infinite 1s;
-        }
-        body.light-mode .decoration-2 { background: var(--secondary-light); }
-
-        /* ----- حاوية الفوانيس المعلقة ----- */
-        .islamic-lanterns {
-            position: absolute; top: -20px; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 3; opacity: 0.85; /* --- تغيير للأداء: تقليل الشفافية قليلاً --- */
+        body.light-mode .header {
+            background: linear-gradient(60deg, var(--primary-light) 0%, var(--secondary-light) 100%); /* تعديل الزاوية */
         }
 
-        /* ----- الفانوس الواحد ----- */
-        .islamic-lantern {
-            position: absolute; width: 45px; height: 65px;
-            background: linear-gradient(to bottom, #a855f7, #7e22ce);
-            border-radius: 5px 5px 15px 15px;
-            box-shadow: 0 4px 12px rgba(126, 34, 206, 0.4); /* --- تغيير للأداء: تقليل انتشار الظل --- */
-            animation: swing 4s infinite ease-in-out;
-            display: flex; justify-content: center; align-items: center;
-            color: var(--accent-dark); font-weight: bold; font-size: 1.3rem;
-            will-change: transform;
+        body.light-mode .moon {
+            background: var(--accent-light);
+            box-shadow: 0 0 25px var(--accent-light), 0 0 50px rgba(244, 114, 182, 0.3); /* تعديل الظل */
         }
-        .islamic-lantern::before {
-            content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
-            width: 12px; height: 6px; background: #581c87; border-radius: 3px 3px 0 0;
+
+        body.light-mode .star {
+            background: rgba(255, 255, 255, 0.8); /* نجوم أخف في الوضع الفاتح */
         }
-        .islamic-lantern::after { content: none; }
-        body.light-mode .islamic-lantern {
-            background: linear-gradient(to bottom, #ec4899, #d946ef);
-            box-shadow: 0 5px 15px rgba(219, 39, 119, 0.25); /* --- تغيير للأداء: تقليل انتشار الظل --- */
+
+        body.light-mode .title,
+        body.light-mode .subtitle {
             color: white;
         }
-        body.light-mode .islamic-lantern::before { background: #a855f7; }
 
-        /* ----- تذييل البطاقة ----- */
-        .footer {
-            text-align: center; margin-top: 40px; font-size: 0.85rem;
-            color: var(--text-secondary-dark); animation: fadeIn 2s ease-out 1.5s both;
+        body.light-mode .message {
+            color: #334155; /* لون أغمق قليلاً للقراءة */
         }
-        body.light-mode .footer { color: var(--text-secondary-light); }
 
-        /* ----- الحركات ----- */
+        body.light-mode .signature {
+            color: var(--primary-light);
+        }
+
+        body.light-mode .decoration-1 { background: var(--primary-light); }
+        body.light-mode .decoration-2 { background: var(--secondary-light); }
+        /* تم إزالة decoration-3 لتبسيط التصميم قليلاً */
+
+        body.light-mode .islamic-lantern {
+            background: linear-gradient(to bottom, #ec4899, #d946ef); /* ألوان وردية/بنفسجية */
+            box-shadow: 0 5px 20px rgba(219, 39, 119, 0.3);
+            color: white;
+        }
+
+        body.light-mode .islamic-lantern::before { background: #a855f7; }
+        body.light-mode .islamic-lantern::after { color: rgba(255, 255, 255, 0.8); }
+
+        /* العناصر المشتركة (مع بعض التعديلات) */
+        .container {
+            position: relative;
+            width: 90%;
+            max-width: 750px; /* أصغر قليلاً */
+            background: var(--card-dark);
+            border-radius: 25px; /* أكثر استدارة */
+            box-shadow: var(--shadow-dark);
+            overflow: hidden;
+            margin: 50px auto;
+            padding-bottom: 40px; /* تعديل الحشو السفلي */
+            transform-style: preserve-3d;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 10; /* للتأكد من أنه فوق كل الخلفيات */
+        }
+
+        .header {
+            position: relative;
+            height: 220px; /* أعلى قليلاً */
+            background: linear-gradient(60deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* إزالة النقش الداخلي للهيدر للتبسيط */
+        /* .header::before { ... } */
+
+        .moon {
+            position: absolute;
+            /* جعل الهلال يتحرك قليلاً من جانب لآخر */
+            top: 20%;
+            left: 15%;
+            width: 90px;
+            height: 90px;
+            background: var(--accent-dark);
+            border-radius: 50%;
+            box-shadow: 0 0 25px var(--accent-dark), 0 0 50px rgba(250, 204, 21, 0.4);
+            animation: gentleFloat 8s ease-in-out infinite; /* حركة جديدة */
+            z-index: 1;
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.8; /* تقليل كثافة النجوم قليلاً */
+        }
+
+        .star {
+            position: absolute;
+            background: var(--text-light);
+            border-radius: 50%;
+            animation: twinkle 2.5s infinite alternate; /* إبطاء الوميض قليلاً */
+            will-change: opacity, transform;
+        }
+
+        .title {
+            position: relative;
+            z-index: 2;
+            color: var(--text-light);
+            text-align: center;
+            font-size: 2.3rem; /* تعديل الحجم */
+            font-weight: 900;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); /* تعديل الظل */
+            margin-bottom: 8px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .subtitle {
+            position: relative;
+            z-index: 2;
+            color: var(--text-light);
+            text-align: center;
+            font-size: 1.1rem; /* تعديل الحجم */
+            font-weight: 500;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+            animation: fadeInUp 1s ease-out 0.3s both;
+            opacity: 0.9; /* أخف قليلاً */
+        }
+
+        .content {
+            padding: 35px; /* زيادة الحشو */
+            text-align: center;
+            position: relative; /* للسماح بـ z-index للـ decorations */
+        }
+
+        .message {
+            font-size: 1.1rem;
+            line-height: 1.9; /* زيادة تباعد الأسطر */
+            margin-bottom: 35px; /* زيادة الهامش */
+            color: var(--text-dark);
+            animation: fadeIn 1.5s ease-out 0.6s both;
+        }
+
+        body.light-mode .message {
+             color: #334155;
+        }
+
+        .signature {
+            font-family: 'Tajawal', sans-serif; /* تأكيد الخط */
+            font-size: 1.6rem; /* أصغر قليلاً */
+            color: var(--secondary-dark); /* استخدام اللون الثانوي */
+            margin-top: 30px;
+            font-weight: 700;
+            animation: fadeIn 2s ease-out 1s both;
+            letter-spacing: 1px; /* تباعد أحرف بسيط */
+        }
+         body.light-mode .signature {
+             color: var(--secondary-light);
+        }
+
+        /* تعديل Decorations لتبدو أخف */
+        .decoration {
+            position: absolute;
+            width: 120px; /* أكبر قليلاً */
+            height: 120px;
+            opacity: 0.08; /* أخف بكثير */
+            z-index: -1; /* خلف النص */
+            filter: blur(5px); /* ضبابية بسيطة */
+            transition: background 0.5s ease, opacity 0.5s ease;
+        }
+
+        .decoration-1 {
+            top: 20px; /* تعديل الموضع */
+            left: -30px; /* جزء منه خارج الحاوية */
+            background: var(--primary-dark);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            animation: float 10s ease-in-out infinite; /* أبطأ */
+        }
+
+        .decoration-2 {
+            bottom: 10px; /* تعديل الموضع */
+            right: -40px; /* جزء منه خارج الحاوية */
+            background: var(--secondary-dark);
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            animation: float 12s ease-in-out infinite 1s; /* أبطأ */
+        }
+         /* تم إزالة decoration-3 للتبسيط */
+        /* .decoration-3 { ... } */
+
+        .islamic-lanterns {
+            position: absolute;
+            top: -20px; /* أعلى قليلاً */
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3; /* فوق الهيدر قليلاً */
+            opacity: 0.9;
+        }
+
+        .islamic-lantern {
+            position: absolute;
+            width: 45px; /* أصغر */
+            height: 65px;
+            background: linear-gradient(to bottom, #a855f7, #7e22ce); /* بنفسجي أغمق */
+            border-radius: 5px 5px 15px 15px; /* تعديل الانحناء */
+            box-shadow: 0 4px 15px rgba(126, 34, 206, 0.5);
+            animation: swing 4s infinite ease-in-out; /* حركة أبطأ */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--accent-dark);
+            font-weight: bold;
+            font-size: 1.3rem; /* أصغر */
+            will-change: transform;
+        }
+        /* تعديل بسيط لشكل الفانوس */
+        .islamic-lantern::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 6px;
+            background: #581c87; /* أغمق */
+            border-radius: 3px 3px 0 0;
+        }
+        .islamic-lantern::after {
+            /* إزالة الرمز السفلي للتبسيط */
+            content: none;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px; /* زيادة الهامش */
+            font-size: 0.85rem; /* أصغر */
+            color: #aaa; /* رمادي أفتح */
+            animation: fadeIn 2s ease-out 1.5s both;
+        }
+        body.light-mode .footer {
+            color: #94a3b8;
+        }
+
+
+        /* Animations (تعديل بعضها) */
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-25px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes float { /* حركة بسيطة */
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(5deg); }
+
+        @keyframes float { /* حركة Decorations */
+            0% { transform: translateY(0) rotate(0deg) scale(1); }
+            50% { transform: translateY(-15px) rotate(8deg) scale(1.05); }
+            100% { transform: translateY(0) rotate(0deg) scale(1); }
         }
-        @keyframes gentleFloat { /* حركة بسيطة */
-            0%, 100% { transform: translateY(0) translateX(0); }
-            50% { transform: translateY(-8px) translateX(3px); }
-        }
-        @keyframes twinkle { /* حركة وميض أبسط */
-            from { opacity: 0.2; }
-            to { opacity: 0.7; }
-        }
-        body.light-mode @keyframes twinkle {
-            from { opacity: 0.4; }
-            to { opacity: 1; }
-        }
-        @keyframes swing { /* حركة تأرجح بسيطة */
-            0%, 100% { transform: rotate(-3deg); }
-            50% { transform: rotate(3deg); }
-        }
-        @keyframes floatElement { /* حركة أبسط للعناصر الزخرفية */
-             0% { transform: translate(0, 0) rotate(0deg); opacity: 0.05; }
-            50% { transform: translate(20px, -30px) rotate(180deg); opacity: 0.12; }
-            100% { transform: translate(0, 0) rotate(360deg); opacity: 0.05; }
+        @keyframes gentleFloat { /* حركة القمر */
+             0% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-10px) translateX(5px); }
+            100% { transform: translateY(0) translateX(0); }
         }
 
-        /* ----- زر تبديل الوضع الداكن/الفاتح ----- */
+        @keyframes twinkle { /* وميض النجوم */
+            from { opacity: 0.2; transform: scale(0.8); }
+            to { opacity: 0.8; transform: scale(1.1); }
+        }
+         body.light-mode @keyframes twinkle { /* تعديل الوميض للوضع الفاتح */
+             from { opacity: 0.4; transform: scale(0.8); }
+             to { opacity: 1; transform: scale(1.1); }
+         }
+
+        @keyframes swing { /* حركة الفوانيس */
+            0% { transform: rotate(-4deg) translateY(0px); }
+            50% { transform: rotate(4deg) translateY(-5px); }
+            100% { transform: rotate(-4deg) translateY(0px); }
+        }
+
+        /* حركة العناصر الزخرفية SVG */
+        @keyframes floatElement {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0.1; }
+            25% { transform: translate(40px, -60px) rotate(90deg); opacity: 0.2; }
+            50% { transform: translate(-20px, 80px) rotate(180deg); opacity: 0.15; }
+            75% { transform: translate(50px, 20px) rotate(270deg); opacity: 0.2; }
+            100% { transform: translate(0, 0) rotate(360deg); opacity: 0.1; }
+        }
+
+        /* Toggle Dark Mode Button */
         .dark-mode-toggle {
-            position: fixed; top: 20px; right: 20px;
-            background: rgba(255, 255, 255, 0.1); color: white;
-            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 50%;
-            width: 45px; height: 45px; display: flex; justify-content: center; align-items: center;
-            cursor: pointer; z-index: 1000; font-size: 1.3rem;
-            transition: all var(--transition-speed-fast) ease;
-            backdrop-filter: blur(5px); /* --- تغيير للأداء: تقليل البلور --- */
-            -webkit-backdrop-filter: blur(5px);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); /* --- تغيير للأداء: تقليل الظل --- */
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1); /* تعديل الشفافية */
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2); /* حد خفيف */
+            border-radius: 50%;
+            width: 45px; /* أكبر قليلاً */
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000; /* ليكون فوق كل شيء */
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
         }
         .dark-mode-toggle:hover {
             background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1); /* --- تغيير للأداء: إزالة الدوران عند المرور --- */
-        }
-        body.light-mode .dark-mode-toggle {
-            background: rgba(255, 255, 255, 0.4); color: var(--text-light-mode);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 3px 10px rgba(100, 116, 139, 0.15);
-        }
-        body.light-mode .dark-mode-toggle:hover {
-            background: rgba(255, 255, 255, 0.6);
             transform: scale(1.1);
         }
 
-        /* ----- تقليل الحركة للمستخدمين الذين يفضلون ذلك ----- */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-                animation-delay: -0.01ms !important;
-            }
-            body::before, body::after, .moon, .star, .decoration-1, .decoration-2, .islamic-lantern, .decorative-element {
-                animation: none !important;
-            }
-             body::before { transform: translate(-50%, -50%) scale(0.9); opacity: 0.8; } /* أبسط */
-            body::after { transform: translate(-50%, -50%) scale(0.9); opacity: 0.8; } /* أبسط */
-            .container { transform: none !important; transition: none !important; }
-            .dark-mode-toggle:hover { transform: scale(1.05); } /* تقليل التكبير */
+        body.light-mode .dark-mode-toggle {
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--text-light-mode);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 3px 12px rgba(100, 116, 139, 0.2);
         }
+         body.light-mode .dark-mode-toggle:hover {
+             background: rgba(255, 255, 255, 0.7);
+         }
 
-        /* ----- التجاوبية (Responsive Design) ----- */
+        /* Responsive */
         @media (max-width: 768px) {
-            body::before, body::after { width: 180vmax; height: 180vmax; filter: blur(40px); } /* تقليل البلور أكثر للشاشات الصغيرة */
+            body::before, body::after { /* تكبير الفقاعات للأجهزة الصغيرة */
+                width: 180vmax;
+                height: 180vmax;
+                filter: blur(80px);
+            }
             .container { width: 95%; margin: 30px auto; border-radius: 20px; }
             .header { height: 180px; }
             .title { font-size: 1.8rem; }
@@ -372,291 +509,219 @@
             .message { font-size: 1rem; line-height: 1.8; margin-bottom: 25px; }
             .signature { font-size: 1.4rem; margin-top: 25px; }
             .islamic-lantern { width: 35px; height: 55px; font-size: 1.1rem; }
-            .decoration { width: 80px; height: 80px; opacity: 0.05; }
+            .decoration { width: 80px; height: 80px; opacity: 0.06; }
             .decoration-1 { left: -20px; }
             .decoration-2 { right: -20px; }
-            .side-decoration { width: 60px; opacity: 0.04; }
+            .side-decoration { width: 60px; opacity: 0.05; }
             .footer { margin-top: 30px; font-size: 0.8rem; }
-            .dark-mode-toggle { width: 40px; height: 40px; font-size: 1.1rem; top: 15px; right: 15px; }
+            .dark-mode-toggle { width: 40px; height: 40px; font-size: 1.1rem; }
         }
-        @media (max-width: 480px) {
-            .title { font-size: 1.6rem; }
-            .subtitle { font-size: 0.9rem; }
-            .message { font-size: 0.95rem; }
-            .signature { font-size: 1.2rem; }
-            .islamic-lantern:nth-child(2) { left: 75%; }
-            .islamic-lantern:nth-child(3) { left: 45%; }
-        }
+         @media (max-width: 480px) {
+             .title { font-size: 1.6rem; }
+             .subtitle { font-size: 0.9rem; }
+             .message { font-size: 0.95rem; }
+             .signature { font-size: 1.2rem; }
+         }
 
     </style>
 </head>
 
 <body>
-    <!-- زر تبديل الوضع -->
-    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="تبديل الوضع الداكن/الفاتح" title="تبديل الوضع الداكن/الفاتح">🌙</button>
+    <button class="dark-mode-toggle" id="darkModeToggle">🌙</button>
 
-    <!-- زخارف جانبية -->
+    <!-- زخارف جانبية (خفيفة) -->
     <div class="side-decoration left-decoration"></div>
     <div class="side-decoration right-decoration"></div>
-    <!-- حاوية العناصر الزخرفية المتحركة -->
+
+    <!-- زخارف عائمة SVG (خفيفة) -->
     <div class="decorative-elements" id="decorativeElements"></div>
 
-    <!-- البطاقة الرئيسية -->
     <div class="container">
-        <!-- رأس البطاقة -->
         <div class="header">
             <div class="moon"></div>
-            <div class="stars" id="starsContainer"></div>
+            <div class="stars" id="stars"></div>
             <div>
                 <h1 class="title">عيد فطر سعيد</h1>
                 <p class="subtitle">كل عام وأنتم بخير</p>
             </div>
-             <!-- الفوانيس المعلقة -->
-             <div class="islamic-lanterns" id="islamicLanternsContainer"></div>
         </div>
 
-        <!-- محتوى البطاقة -->
         <div class="content">
-            <!-- زخارف داخلية عائمة -->
             <div class="decoration decoration-1"></div>
             <div class="decoration decoration-2"></div>
+            <!-- <div class="decoration decoration-3"></div> --> {/* تم التعليق */}
 
-            <!-- نص التهنئة -->
             <div class="message">
-                <p>بمناسبة حلول عيد الفطر المبارك، يطيب لنا أن نتقدم إليكم بأصدق التهاني وأجمل التبريكات.</p>
-                <p>تقبل الله منا ومنكم صالح الأعمال والطاعات، وجعل أيامكم كلها أفراحًا ومسرات.</p>
-                <p>أعاده الله علينا وعليكم وعلى الأمة الإسلامية بالخير واليمن والبركات.</p>
-                <p>كل عام وأنتم وعائلاتكم الكريمة بأتم الصحة والعافية.</p>
+                <p>بمناسبة حلول عيد الفطر المبارك، نتقدم بأحر التهاني وأطيب التمنيات.</p>
+                <p>تقبل الله منا ومنكم صالح الأعمال، وجعل أيامكم كلها فرح وسرور.</p>
+                <p>أعاده الله علينا وعليكم باليمن والبركات، وكل عام وأنتم بألف خير.</p>
+                <p>نسأل الله أن يجعله عيد خير ومحبة وسلام على الأمة الإسلامية جمعاء.</p>
             </div>
 
-            <!-- التوقيع -->
-            <div class="signature">مع خالص المحبة والتقدير</div>
+            <div class="signature">عساكم من عواده</div>
 
-            <!-- التذييل -->
             <div class="footer">
-                <p>© <span id="current-year"></span> - تهاني العيد المبارك</p>
+                <p>© <span id="current-year"></span> - تهاني العيد</p>
             </div>
         </div>
+
+        <div class="islamic-lanterns" id="islamic-lanterns"></div>
     </div>
 
     <script>
+        // إنشاء النجوم (تقليل العدد للتبسيط)
+        const starsContainer = document.getElementById('stars');
+        const numStars = 70; // عدد أقل
+        for (let i = 0; i < numStars; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            const size = Math.random() * 1.5 + 0.5; // نجوم أصغر
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.animationDelay = `${Math.random() * 2.5}s`; // تأخير متنوع
+            starsContainer.appendChild(star);
+        }
+
+        // إنشاء الفوانيس الإسلامية (تقليل العدد وتوزيع أفضل)
+        const lanternsContainer = document.getElementById('islamic-lanterns');
+        const lanternPositions = [
+            { left: '15%', top: '5%', delay: '0s' },
+            { left: '85%', top: '10%', delay: '0.5s' },
+            { left: '50%', top: '0%', delay: '1s' } // فانوس مركزي أعلى
+        ];
+        const lanternSymbols = ['☪', '🌟']; // تبسيط الرموز
+
+        lanternPositions.forEach(pos => {
+            const lantern = document.createElement('div');
+            lantern.classList.add('islamic-lantern');
+            lantern.style.left = pos.left;
+            lantern.style.top = pos.top;
+            lantern.style.animationDelay = pos.delay;
+            // اختيار رمز عشوائي من الرموز المبسطة
+            lantern.textContent = lanternSymbols[Math.floor(Math.random() * lanternSymbols.length)];
+            lanternsContainer.appendChild(lantern);
+        });
+
+
+        // إنشاء زخارف عائمة واضحة (SVG) (تقليل العدد وتعديل الألوان)
+        const decorativeElements = document.getElementById('decorativeElements');
+        const shapes = [
+            '<svg viewBox="0 0 100 100"><path d="M50,0 L75,50 L50,100 L25,50 Z" fill="currentColor" /></svg>', // معين بسيط
+            '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" stroke-width="4" stroke-dasharray="10 5"/></svg>', // دائرة متقطعة
+            '<svg viewBox="0 0 100 100"><path d="M10,10 L90,90 M10,90 L90,10" fill="none" stroke="currentColor" stroke-width="3" /></svg>', // X بسيط
+            '<svg viewBox="0 0 100 100"><path d="M50,10 Q90,50 50,90 Q10,50 50,10 Z" fill="none" stroke="currentColor" stroke-width="3"/></svg>' // شكل بيضاوي/دمعة
+        ];
+        const numFloatingElements = 8; // عدد أقل
+
+        for (let i = 0; i < numFloatingElements; i++) {
+            const element = document.createElement('div');
+            element.classList.add('decorative-element');
+
+            const size = Math.random() * 60 + 40; // أحجام أصغر
+            const left = Math.random() * 100;
+            const top = Math.random() * 100;
+            const delay = Math.random() * 30;
+            const duration = Math.random() * 20 + 35; // مدة أطول للحركة
+            const shape = shapes[Math.floor(Math.random() * shapes.length)];
+
+            // تحديث الألوان بناءً على الوضع عند الإنشاء الأولي
+            const isLight = document.body.classList.contains('light-mode');
+            const primaryColor = isLight ? 'var(--primary-light)' : 'var(--primary-dark)';
+            const secondaryColor = isLight ? 'var(--secondary-light)' : 'var(--secondary-dark)';
+            const color = i % 2 === 0 ? primaryColor : secondaryColor;
+
+            element.innerHTML = shape;
+            element.style.width = `${size}px`;
+            element.style.height = `${size}px`;
+            element.style.left = `${left}%`;
+            element.style.top = `${top}%`;
+            element.style.animationDelay = `${delay}s`;
+            element.style.animationDuration = `${duration}s`;
+            element.style.color = color; // تعيين اللون الأولي
+
+            decorativeElements.appendChild(element);
+        }
+
+        // تأثير الحركة 3D عند تحريك الماوس (بشكل أخف)
+        const container = document.querySelector('.container');
+        if (window.matchMedia('(min-width: 769px)').matches) { // تطبيق التأثير فقط على الشاشات الكبيرة
+            container.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                const rotateY = (x / rect.width) * 10; // تقليل زاوية الدوران
+                const rotateX = -(y / rect.height) * 10;
+                container.style.transform = `perspective(1000px) rotateY(${rotateY}deg) rotateX(${rotateX}deg) scale(1.03)`; // إضافة perspective و scale بسيط
+            });
+
+            container.addEventListener('mouseleave', () => {
+                container.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)'; // انتقال سلس للعودة
+                container.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1)';
+            });
+             container.addEventListener('mouseenter', () => {
+                container.style.transition = 'transform 0.1s ease-out'; // انتقال سريع عند الدخول
+            });
+        }
+
+
+        // عرض السنة الحالية
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // زر تبديل الوضع الداكن/الفاتح
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+        const floatingSVGElements = document.querySelectorAll('.decorative-element'); // الحصول على عناصر SVG مرة واحدة
+
+        function applyMode(isLight) {
+            if (isLight) {
+                body.classList.add('light-mode');
+                darkModeToggle.textContent = '🌙';
+            } else {
+                body.classList.remove('light-mode');
+                darkModeToggle.textContent = '🌞';
+            }
+
+            // تحديث ألوان العناصر الزخرفية SVG عند التبديل
+            floatingSVGElements.forEach((el, i) => {
+                 const primaryColor = isLight ? 'var(--primary-light)' : 'var(--primary-dark)';
+                 const secondaryColor = isLight ? 'var(--secondary-light)' : 'var(--secondary-dark)';
+                 el.style.color = i % 2 === 0 ? primaryColor : secondaryColor;
+            });
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            const isCurrentlyLight = body.classList.contains('light-mode');
+            applyMode(!isCurrentlyLight);
+            // حفظ التفضيل في localStorage
+            localStorage.setItem('lightMode', !isCurrentlyLight);
+        });
+
+        // تحميل التفضيل المحفوظ عند بدء التحميل
         document.addEventListener('DOMContentLoaded', () => {
+            // التحقق من تفضيل النظام أولاً
+            const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+            const savedMode = localStorage.getItem('lightMode'); // true for light, false for dark
 
-            const body = document.body;
-            const container = document.querySelector('.container');
-            const starsContainer = document.getElementById('starsContainer');
-            const lanternsContainer = document.getElementById('islamicLanternsContainer');
-            const decorativeElementsContainer = document.getElementById('decorativeElements');
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            const currentYearSpan = document.getElementById('current-year');
+            let initialModeIsLight;
 
-            const numStars = 30; // --- تغيير للأداء: تقليل عدد النجوم ---
-            const numFloatingElements = 4; // --- تغيير للأداء: تقليل عدد العناصر العائمة ---
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-            // 1. إنشاء النجوم باستخدام DocumentFragment
-            function createStars() {
-                if (!starsContainer) return;
-                starsContainer.innerHTML = '';
-                const fragment = document.createDocumentFragment(); // --- تغيير للأداء ---
-                for (let i = 0; i < numStars; i++) {
-                    const star = document.createElement('div');
-                    star.classList.add('star');
-                    const size = Math.random() * 1.5 + 0.5;
-                    star.style.width = `${size}px`;
-                    star.style.height = `${size}px`;
-                    star.style.left = `${Math.random() * 100}%`;
-                    star.style.top = `${Math.random() * 100}%`;
-                    star.style.animationDelay = `${Math.random() * 2.5}s`;
-                    fragment.appendChild(star); // --- تغيير للأداء ---
-                }
-                starsContainer.appendChild(fragment); // --- تغيير للأداء: إضافة واحدة للـ DOM ---
+            if (savedMode !== null) {
+                initialModeIsLight = savedMode === 'true'; // استخدام الوضع المحفوظ إذا وجد
+            } else {
+                initialModeIsLight = !prefersDarkScheme.matches; // وإلا، استخدم تفضيل النظام
             }
 
-            // 2. إنشاء الفوانيس (لا تغييرات كبيرة هنا، العدد قليل)
-            function createLanterns() {
-                if (!lanternsContainer) return;
-                lanternsContainer.innerHTML = '';
-                const lanternPositions = [
-                    { left: '15%', top: '-15px', delay: '0s' },
-                    { left: '85%', top: '-5px', delay: '0.5s' },
-                    { left: '50%', top: '-25px', delay: '1s', transform: 'translateX(-50%)' }
-                ];
-                const lanternSymbols = ['☪', '🌟', '✨'];
+             applyMode(initialModeIsLight);
 
-                lanternPositions.forEach(pos => {
-                    const lantern = document.createElement('div');
-                    lantern.classList.add('islamic-lantern');
-                    lantern.style.left = pos.left;
-                    lantern.style.top = pos.top;
-                    if (pos.transform) {
-                         lantern.style.transform = pos.transform;
-                    }
-                    lantern.style.animationDelay = pos.delay;
-                    lantern.textContent = lanternSymbols[Math.floor(Math.random() * lanternSymbols.length)];
-                    lanternsContainer.appendChild(lantern); // العدد قليل، لا حاجة لـ Fragment هنا بالضرورة
-                });
-            }
-
-            // 3. إنشاء زخارف SVG المتحركة باستخدام DocumentFragment
-            function createFloatingSVGs() {
-                if (!decorativeElementsContainer) return;
-                decorativeElementsContainer.innerHTML = '';
-                const fragment = document.createDocumentFragment(); // --- تغيير للأداء ---
-
-                const shapes = [
-                    '<svg viewBox="0 0 100 100"><path d="M50,0 L75,50 L50,100 L25,50 Z" fill="currentColor" /></svg>',
-                    '<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" stroke-width="4" stroke-dasharray="10 5"/></svg>',
-                    '<svg viewBox="0 0 100 100"><path d="M10,10 L90,90 M10,90 L90,10" fill="none" stroke="currentColor" stroke-width="3" /></svg>',
-                    '<svg viewBox="0 0 100 100"><path d="M50,10 Q90,50 50,90 Q10,50 50,10 Z" fill="none" stroke="currentColor" stroke-width="3"/></svg>'
-                ];
-                const isLight = body.classList.contains('light-mode');
-
-                for (let i = 0; i < numFloatingElements; i++) {
-                    const element = document.createElement('div');
-                    element.classList.add('decorative-element');
-                    const size = Math.random() * 50 + 30; // --- تغيير للأداء: حجم أصغر قليلاً ---
-                    const left = Math.random() * 100;
-                    const top = Math.random() * 100;
-                    const delay = Math.random() * 25;
-                    const duration = Math.random() * 15 + 30; // --- تغيير للأداء: مدة أقصر قليلاً ---
-
-                    const shape = shapes[Math.floor(Math.random() * shapes.length)];
-                    const primaryColor = getComputedStyle(body).getPropertyValue(isLight ? '--primary-light' : '--primary-dark');
-                    const secondaryColor = getComputedStyle(body).getPropertyValue(isLight ? '--secondary-light' : '--secondary-dark');
-                    const color = i % 2 === 0 ? primaryColor : secondaryColor;
-
-                    element.innerHTML = shape;
-                    element.style.width = `${size}px`;
-                    element.style.height = `${size}px`;
-                    element.style.left = `${left}%`;
-                    element.style.top = `${top}%`;
-                    element.style.animationDelay = `${delay}s`;
-                    element.style.animationDuration = `${duration}s`;
-                    element.style.color = color.trim();
-
-                    fragment.appendChild(element); // --- تغيير للأداء ---
-                }
-                decorativeElementsContainer.appendChild(fragment); // --- تغيير للأداء: إضافة واحدة للـ DOM ---
-            }
-
-            // 4. تفعيل تأثير الماوس 3D مع Throttling باستخدام requestAnimationFrame
-            function setup3DHoverEffect() {
-                 if (container && window.matchMedia('(min-width: 769px)').matches && !prefersReducedMotion) {
-                    let ticking = false; // --- تغيير للأداء: علم لتتبع الطلب ---
-
-                    container.addEventListener('mousemove', (e) => {
-                        // --- تغيير للأداء: فقط اطلب التحديث إذا لم يكن هناك طلب معلق ---
-                        if (!ticking) {
-                            window.requestAnimationFrame(() => {
-                                const rect = container.getBoundingClientRect();
-                                const x = e.clientX - rect.left - rect.width / 2;
-                                const y = e.clientY - rect.top - rect.height / 2;
-                                // --- تغيير للأداء: تقليل معامل الدوران قليلاً ---
-                                const rotateY = (x / rect.width) * 6;
-                                const rotateX = -(y / rect.height) * 6;
-                                container.style.transform = `perspective(1200px) rotateY(${rotateY}deg) rotateX(${rotateX}deg) scale(1.02)`; // --- تغيير للأداء: تقليل التكبير قليلاً ---
-                                ticking = false; // --- تغيير للأداء: السماح بطلب جديد ---
-                            });
-                            ticking = true; // --- تغيير للأداء: وضع علامة بوجود طلب ---
-                        }
-                    });
-
-                    container.addEventListener('mouseleave', () => {
-                        // --- تغيير للأداء: استخدام rAF للمغادرة أيضاً للاتساق ---
-                        window.requestAnimationFrame(() => {
-                            // إعادة البطاقة لوضعها الأصلي بسلاسة عند خروج الماوس
-                            container.style.transition = 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
-                            container.style.transform = 'perspective(1200px) rotateY(0deg) rotateX(0deg) scale(1)';
-                         });
-                    });
-
-                    container.addEventListener('mouseenter', () => {
-                         // تقليل مدة الانتقال عند دخول الماوس لجعل الاستجابة أسرع
-                         // --- تغيير للأداء: استخدام rAF للدخول أيضاً لضمان تطبيق الانتقال قبل التحويل التالي ---
-                         window.requestAnimationFrame(() => {
-                            container.style.transition = 'transform 0.1s ease-out';
-                         });
-                    });
-                } else if (container) {
-                     container.style.transform = 'none';
-                     container.style.transition = 'none';
-                }
-            }
-
-            // 5. تحديث السنة الحالية (كما هو)
-            if (currentYearSpan) {
-                currentYearSpan.textContent = new Date().getFullYear();
-            }
-
-            // 6. وظيفة تطبيق الوضع (فاتح/داكن) (تحديث ألوان SVG مدمج)
-            function applyMode(isLight) {
-                body.classList.toggle('light-mode', isLight);
-                const modeIcon = isLight ? '🌙' : '🌞';
-                const modeLabel = isLight ? 'التبديل إلى الوضع الداكن' : 'التبديل إلى الوضع الفاتح';
-
-                if (darkModeToggle) {
-                    darkModeToggle.textContent = modeIcon;
-                    darkModeToggle.setAttribute('aria-label', modeLabel);
-                    darkModeToggle.setAttribute('title', modeLabel);
-                }
-
-                // تحديث ألوان عناصر SVG المتحركة
-                const floatingSVGElements = decorativeElementsContainer.querySelectorAll('.decorative-element');
-                floatingSVGElements.forEach((el, i) => {
-                    const primaryColor = getComputedStyle(body).getPropertyValue(isLight ? '--primary-light' : '--primary-dark');
-                    const secondaryColor = getComputedStyle(body).getPropertyValue(isLight ? '--secondary-light' : '--secondary-dark');
-                    const color = i % 2 === 0 ? primaryColor : secondaryColor;
-                    el.style.color = color.trim();
-                });
-            }
-
-            // 7. إعداد الوضع الأولي (كما هو)
-            function initializeMode() {
-                let initialModeIsLight;
-                try {
-                    const savedMode = localStorage.getItem('lightMode');
-                    if (savedMode !== null) {
-                        initialModeIsLight = (savedMode === 'true');
-                    } else {
-                        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-                        initialModeIsLight = !prefersDarkScheme.matches;
-                        prefersDarkScheme.addEventListener('change', (e) => {
-                            if (localStorage.getItem('lightMode') === null) {
-                                applyMode(!e.matches);
-                            }
-                        });
-                    }
-                } catch (e) {
-                    console.error("Could not access localStorage. Using system preference.", e);
-                    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
-                    initialModeIsLight = !prefersDarkScheme.matches;
-                }
-                applyMode(initialModeIsLight);
-            }
-
-            // 8. ربط حدث النقر لزر تبديل الوضع (كما هو)
-            if (darkModeToggle) {
-                darkModeToggle.addEventListener('click', () => {
-                    const isCurrentlyLight = body.classList.contains('light-mode');
-                    const newModeIsLight = !isCurrentlyLight;
-                    applyMode(newModeIsLight);
-                    try {
-                        localStorage.setItem('lightMode', newModeIsLight);
-                    } catch (e) {
-                        console.error("Could not save theme preference to localStorage.", e);
-                    }
-                });
-            }
-
-            // ----- استدعاء دوال الإنشاء والإعداد -----
-            initializeMode(); // تهيئة الوضع أولاً لتحديد الألوان الصحيحة
-            createStars();
-            createLanterns();
-            createFloatingSVGs();
-            setup3DHoverEffect();
-
-        }); // نهاية DOMContentLoaded
+             // الاستماع لتغييرات تفضيل النظام (إذا لم يقم المستخدم بالاختيار يدوياً)
+             prefersDarkScheme.addEventListener('change', (e) => {
+                 // فقط قم بالتحديث إذا لم يكن هناك تفضيل محفوظ في localStorage
+                 if (localStorage.getItem('lightMode') === null) {
+                     applyMode(!e.matches);
+                 }
+             });
+        });
     </script>
 </body>
 </html>
